@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Bim Plus</title>
+
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script src="tools.js"></script>
+
+</head>
+
+<body>
+    
+    <main id="main">
+
+        <div id="teamsDiv">
+        <h2 id="textTeams">Teams</h2>
+        <nav>
+            <ul id="ulTeams">
+            </ul>
+        </nav>
+
+        </nav>
+
+        <h2 id="textTeamMembers">Team members</h2>
+        <nav>
+            <ul id="ulTeamMembers">
+            </ul>
+        </nav>
+        </div>
+
+        <div id="projectsDiv">
+        <h2 id="textProjects">Projects</h2>
+        <nav>
+            <ul id="ulProjects">
+            </ul>
+        </nav>
+
+        <h2 id="textProjectMembers">Project members</h2>
+        <nav>
+            <ul id="ulProjectMembers">
+            </ul>
+        </nav>
+        </div>
+        
+        <div>
+            <button type="button" id="excelButton" onclick="getExcel()">Excel projects/users</button>
+            <button type="button" id="excelButton" onclick="getExcelGroups()">Excel assign groups</button>
+        </div>
+
+        <h1 id="others">Others</h1>
+
+        <div>
+            <button type="button" id="functionButton" onclick="assignUserProject()">Assign User to Project</button>
+            <button type="button" id="functionButton" onclick="deleteUserProject()">Delete User from Project</button>
+        </div>
+        
+        <div id="createProject">
+            <input type="text" id="projectName" placeholder="Give a project name"/>
+            <button type="button" id="createButton" onclick="createProject()">Create Project</button>
+        </div>
+
+        <div id="createUser">
+            <input type="text" id="userEmail" placeholder="Give user email"/>
+            <input type="text" id="userPassword" placeholder="Give user password"/>
+            <button type="button" id="createButton" onclick="createUser()">Create User</button>
+        </div>
+
+        <div>
+            <button type="button" id="importantButton" onclick="deleteProject()">DELETE Project</button>
+            <button type="button" id="importantButton" onclick="deleteUserTeam()">DELETE User from Team</button>
+        </div>
+        
+    </main>
+
+    <script>
+
+        getTeams();
+            
+    </script>
+</body>
+
+</html>

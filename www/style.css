@@ -1,0 +1,147 @@
+body{
+  text-align: center;
+}
+
+ul {
+  margin: 0;
+  padding: 0;
+}
+
+nav ul{
+  overflow-y: scroll;
+}
+
+ul li {
+  cursor: pointer;
+  position: relative;
+  padding: 12px 8px 12px 40px;
+  background: #eee;
+  font-size: 20px;
+  transition: 0.2s;
+}
+
+ul li:nth-child(odd) {
+  background: #f9f9f9;
+}
+
+ul li:hover {
+  background: #ddd;
+}
+
+#teamsDiv{
+  display: inline-block;
+}
+
+#textTeams{
+  margin-bottom: 5px;
+}
+
+#textTeamMembers{
+  margin-bottom: 5px;
+}
+
+#ulTeams{
+  height: 250px;
+  width: 450px;
+  border: 6px ridge;
+  border-color: #0050ac;
+  border-radius: 8px;
+  margin: auto;
+}
+
+#ulTeamMembers{
+  height: 250px;
+  width: 450px;
+  border: 6px ridge;
+  border-color: #0050ac;
+  border-radius: 8px;
+  margin: auto;
+
+}
+
+#projectsDiv{
+  display: inline-block;
+}
+
+#textProjects{
+  margin-top: 20px;
+  margin-bottom: 5px;
+}
+
+#textProjectMembers{
+  margin-top: 20px;
+  margin-bottom: 5px;
+}
+
+#ulProjectMembers{
+  height: 250px;
+  width: 450px;
+  border: 6px ridge;
+  border-color: #0050ac;
+  border-radius: 8px;
+  margin: auto;
+
+}
+
+#ulProjects{
+  height: 250px;
+  width: 450px;
+  border: 6px ridge;
+  border-color: #0050ac;
+  border-radius: 8px;
+  margin: auto;
+}
+
+#others{
+  margin-top: 50px;
+  margin-bottom: 20px;
+}
+
+#functionButton{
+  border-radius: 10px;
+  width: 120px;
+  height: 40px;
+  background-color: darkolivegreen;
+  font-size: 15px;
+  margin-bottom: 10px;
+}
+
+#importantButton{
+  border-radius: 10px;
+  width: 120px;
+  height: 40px;
+  background-color: crimson;
+  font-size: 15px;
+  margin: 10px;
+}
+
+#excelButton{
+  border-radius: 10px;
+  width: 160px;
+  height: 60px;
+  background-color: rgb(175, 99, 5);
+  font-size: 18px;
+  margin: 10px;
+}
+
+#createButton{
+  border-radius: 10px;
+  width: 120px;
+  height: 40px;
+  background-color: darkcyan;
+  font-size: 15px;
+  margin: 5px;
+}
+
+#projectName{
+  width: 200px;
+  height: 30px;
+}
+#userEmail{
+  width: 200px;
+  height: 30px;
+}
+#userPassword{
+  width: 200px;
+  height: 30px;
+}
