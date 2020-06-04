@@ -38,7 +38,7 @@ router.get('/auth', function (req, res) {
         .catch(function (error) {
             // Failed
             console.log(error);
-            res.send('Failed to authenticate');
+            //res.send('Failed to authenticate');
         });
 });
 
@@ -61,8 +61,10 @@ router.get('/getteams', function (req, res) {
         })
         .catch(function (error) {
             // Failed
-            console.log(error);
-            res.send('Failed to authenticate');
+            console.log('Failed to get teams! ' + error);
+            var data = 'Failed';
+            res.json({data});
+            //res.send('Failed to get teams');
         });
 });
 
@@ -85,8 +87,10 @@ router.get('/getmembersofteam/:teamSlug', function (req, res) {
         })
         .catch(function (error) {
             // Failed
-            console.log(error);
-            res.send('Failed to authenticate');
+            console.log('Failed to get team members! ' + error);
+            var data = 'Failed';
+            res.json({data});
+            //res.send('Failed to get team members');
         });
 });
 
@@ -108,7 +112,7 @@ router.get('/adduserteam/:userId/:teamSlug', function (req, res) {
                 id: userId
             },
             member_status: "Active",
-            role: "Member"
+            //role: "Member"
                
             }
     })
@@ -117,8 +121,10 @@ router.get('/adduserteam/:userId/:teamSlug', function (req, res) {
             res.json({data});
         })
         .catch(function (error) {
-            console.log(error);
-            res.send('Failed to add user to team! ' + error);
+            console.log('Failed to add user to team! ' + error);
+            var data = 'Failed';
+            res.json({data});
+            //res.send('Failed to add user to team! ' + error);
         });
 });
 
@@ -141,8 +147,10 @@ router.get('/deleteuserteam/:teamSlug/:userId', function (req, res) {
         })
         .catch(function (error) {
             // Failed
-            console.log(error);
-            res.send('Failed to authenticate');
+            console.log('Failed to delete user! ' + error);
+            var data = 'Failed';
+            res.json({data});
+            // res.send('Failed to delete user! ' + error);
         });
 });
 
@@ -167,8 +175,10 @@ router.get('/getprojects/:teamSlug', function (req, res) {
         })
         .catch(function (error) {
             // Failed
-            console.log(error);
-            res.send('Failed to authenticate');
+            console.log('Failed to get team projects! ' + error);
+            var data = 'Failed';
+            res.json({data});
+            //res.send('Failed to get team projects! ' + error);
         });
 });
 
@@ -191,8 +201,10 @@ router.get('/getprojectsmembersroles/:teamSlug/:projectId', function (req, res) 
         })
         .catch(function (error) {
             // Failed
-            console.log(error);
-            res.send('Failed to authenticate');
+            console.log('Failed to get project members! ' + error);
+            var data = 'Failed';
+            res.json({data});
+            //res.send('Failed to get project members! ' + error);
         });
 });
 
@@ -219,9 +231,9 @@ router.get('/createproject/:teamSlug/:projectName', function (req, res, next) {
         })
         .catch(function (error) {
              if (error.response.status == 409){
-                res.send('A problem occur creating a project! ' + error);
+                res.send('A project with this name exists! ' + error);
             } else {
-                res.send('Failed to create project: ' + projectName + '! With error: ' + error);
+                console.log('Failed to create project: ' + projectName + '! With error: ' + error);
             }
         });
 });
@@ -258,7 +270,10 @@ router.get('/assignuserproject/:teamSlug/:projectId/:userId/:role', function (re
         })
         .catch(function (error) {
             // Failed
-            res.send('Failed to assign user to project! ' + error);
+            console.log('Failed to assign user to project! ' + error)
+            var data = 'Failed';
+            res.json({data});
+            //res.send('Failed to assign user to project! ' + error);
         });
 });
 
@@ -287,8 +302,10 @@ router.get('/deleteuserproject/:teamSlug/:projectId/:userId', function (req, res
         })
         .catch(function (error) {
             // Failed
-            console.log(error);
-            res.send('Failed to authenticate');
+            console.log('Failed to delete user from project! ' + error);
+            var data = 'Failed';
+            res.json({data});
+            //res.send('Failed to delete user from project! ' + error);
         });
 });
 
@@ -311,8 +328,10 @@ router.get('/deleteuserproject/:teamSlug/:projectId', function (req, res) {
         })
         .catch(function (error) {
             // Failed
-            console.log(error);
-            res.send('Failed to authenticate');
+            console.log('Failed to delete project! ' + error);
+            var data = 'Failed';
+            res.json({data});
+            //res.send('Failed to delete project! ' + error);
         });
 });
 
@@ -337,7 +356,9 @@ router.get('/getuserid/:userEmail', function (req, res) {
         })
         .catch(function (error) {
             // Failed
-            res.send('Failed to find a user with email: ' + userEmail + '. '  + error);
+            console.log('Failed to find a user with email: ' + userEmail + '. '  + error);
+            var data = 'Failed';
+            res.json({data});
         });
 });
 
@@ -368,7 +389,7 @@ router.get('/createuser/:userEmail/:userPassword/:teamSlug', function (req, res)
         .then(function (response) {
             // Success
             userId = response.data.id;
-            res.redirect('/adduserteam/' + userId + '/' + teamSlug)
+            res.redirect('/api/bimplus/adduserteam/' + userId + '/' + teamSlug)
         })
         .catch(function (error) {
             if (error.response.status == 409){
@@ -377,7 +398,10 @@ router.get('/createuser/:userEmail/:userPassword/:teamSlug', function (req, res)
                 res.json({data});
 
             } else {
-                res.send('Failed to create user: ' + userEmail + '! With error: ' + error);
+                console.log('Failed to create user: ' + userEmail + '! With error: ' + error);
+                var data = 'Failed';
+                res.json({data});
+                //res.send('Failed to create user: ' + userEmail + '! With error: ' + error);
             }
         });
 });

@@ -58,11 +58,16 @@ function getExcel(){
                                     url: '/api/bimplus/createproject/' + allTeams[currentTeam].slug +  '/' + projectName,
                                     async: false,
                                     success: function(res){
+                                        
+                                        if (res.data != 'Failed'){
+                                            projectId = res.data.id;
 
-                                        projectId = res.data.id;
+                                            text = projectName + ' created!';
+                                            saveToTextFile(createdProjectsFile, text);
 
-                                        text = projectName + ' created!';
-                                        saveToTextFile(createdProjectsFile, text);
+                                        }else{
+                                            console.log('FAILED!!')
+                                        }
                                     
                                     }
                                 })
@@ -97,69 +102,81 @@ function getExcel(){
                                             async: false,
                                             success: function(res){
 
-                                                if (res.data != 'Exists'){
-                                                    // If a user with the same email does not exists
-                                                    console.log('New user was created! ' + userEmail);
+                                                if (res.data != 'Failed'){
+                                                    if (res.data != 'Exists'){
+                                                        // If a user with the same email does not exists
+                                                        console.log('New user was created! ' + userEmail);
 
-                                                    userId = res.data.user.id;
+                                                        userId = res.data.user.id;
 
-                                                    // ====== Assign user to project =======
-                                                    jQuery.ajax({
-                                                        url: '/api/bimplus/assignuserproject/' + allTeams[currentTeam].slug +  '/' + projectId + '/' + userId + '/' + projectEditorRole,
-                                                        async: false,
-                                                        success: function(res){
-                                                            var data = res.data;
-                                                            console.log("Assinging new user to project");
-                                                        }
-                                                    })
+                                                        // ====== Assign user to project =======
+                                                        jQuery.ajax({
+                                                            url: '/api/bimplus/assignuserproject/' + allTeams[currentTeam].slug +  '/' + projectId + '/' + userId + '/' + projectEditorRole,
+                                                            async: false,
+                                                            success: function(res){
+                                                                var data = res.data;
+                                                                console.log("Assinging new user to project");
+                                                            }
+                                                        })
 
-                                                    text = 'email: ' + userEmail + '; id: ' + userId + '\n';
-                                                    saveToTextFile(createdUsersFile, text);
+                                                        text = 'email: ' + userEmail + '; id: ' + userId + '\n';
+                                                        saveToTextFile(createdUsersFile, text);
 
-                                                // User already exists, but is not in team
-                                                } else {
-                                                    // Find the id of the user
-                                                    jQuery.ajax({
-                                                        url: '/api/bimplus/getuserid/' + userEmail,
-                                                        async: false,
-                                                        success: function(res){
-                                                            
-                                                            if (Object.keys(res.userId).length != 0){
-                                                                userId = res.userId.id;
-                                                                console.log('User already exists. Id found!');
-
+                                                    // User already exists, but is not in team
+                                                    } else {
+                                                        // Find the id of the user
+                                                        jQuery.ajax({
+                                                            url: '/api/bimplus/getuserid/' + userEmail,
+                                                            async: false,
+                                                            success: function(res){
                                                                 
-                                                                console.log('UserId: ' + userId)
-                                                                console.log('UserEmail: ' + userEmail)
+                                                                if (res.data != 'Failed'){
+                                                                    if (Object.keys(res.userId).length != 0){
+                                                                        userId = res.userId.id;
+                                                                        console.log('User already exists. Id found!');
 
-                                                                // ======== Add user to team ==========
-                                                                jQuery.ajax({
-                                                                    url: '/api/bimplus/adduserteam/' + userId + '/' + allTeams[currentTeam].slug,
-                                                                    async: false,
-                                                                    success: function(res){
-                                                                        console.log('Added to team!')
+                                                                        
+                                                                        console.log('UserId: ' + userId)
+                                                                        console.log('UserEmail: ' + userEmail)
 
-                                                                        // ====== Assign user to project =======
+                                                                        // ======== Add user to team ==========
                                                                         jQuery.ajax({
-                                                                            url: '/api/bimplus/assignuserproject/' + allTeams[currentTeam].slug +  '/' + projectId + '/' + userId + '/' + projectEditorRole,
+                                                                            url: '/api/bimplus/adduserteam/' + userId + '/' + allTeams[currentTeam].slug,
                                                                             async: false,
                                                                             success: function(res){
-                                                                                var data = res.data;
-                                                                                console.log("Assinging new user to project");
+                                                                                if (res.data != 'Failed'){
+                                                                                    console.log('Added to team!')
+
+                                                                                    // ====== Assign user to project =======
+                                                                                    jQuery.ajax({
+                                                                                        url: '/api/bimplus/assignuserproject/' + allTeams[currentTeam].slug +  '/' + projectId + '/' + userId + '/' + projectEditorRole,
+                                                                                        async: false,
+                                                                                        success: function(res){
+                                                                                            var data = res.data;
+                                                                                            console.log("Assinging new user to project");
+                                                                                        }
+                                                                                    })
+                                                                                }else{
+                                                                                    console.log('FAILED!!')
+                                                                                }
                                                                             }
                                                                         })
+                                                                        
+                                                                    // Coudn't find user with this email
+                                                                    } else {
+                                                                        console.log('Need to add user to team manually! A problem occur!');
+                                                                        text = userEmail + '  -> must be added to team manually!';
+                                                                        saveToTextFile(addUsersToTeam, text);
                                                                     }
-                                                                })
-                                                                
-                                                            // Coudn't find user with this email
-                                                            } else {
-                                                                console.log('Need to add user to team manually! A problem occur!');
-                                                                text = userEmail + '  -> must be added to team manually!';
-                                                                saveToTextFile(addUsersToTeam, text);
+                                                                }else{
+                                                                    console.log('FAILED!!')
+                                                                }
                                                             }
-                                                        }
-                                                    })
-                                                        
+                                                        })
+                                                            
+                                                    }
+                                                }else{
+                                                    console.log('FAILED!!')
                                                 }
 
                                             }
@@ -169,12 +186,8 @@ function getExcel(){
                                         console.log('User with the same email is in the team');
 
                                         text = userEmail + ' already exists!';
-                                        jQuery.ajax({
-                                            url: '/local/saveToFile/' + failedUsersFile + '/' + text,
-                                            async: false,
-                                            success: function(res){
-                                            }
-                                        })
+                                        saveToTextFile(failedUsersFile, text);
+                                        
                                         
                                         // Check if user is already in the project
                                         var isUserInProject = false;
@@ -198,8 +211,12 @@ function getExcel(){
                                                 url: '/api/bimplus/assignuserproject/' + allTeams[currentTeam].slug +  '/' + projectId + '/' + userId + '/' + projectEditorRole,
                                                 async: false,
                                                 success: function(res){
-                                                    data = res.data;
-                                                    console.log("Assinging existing user to project");
+                                                    if (res.data !='Failed'){
+                                                        data = res.data;
+                                                        console.log("Assinging existing user to project");
+                                                    }else{
+                                                        console.log('FAILED!!')
+                                                    }
                                                 }
                                             })
                                         }else {
