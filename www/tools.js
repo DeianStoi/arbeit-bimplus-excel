@@ -12,7 +12,8 @@ function getExcel(){
     var projectName = '';
 
     var excelFileName = 'Students.xlsx';
-    var projectEditorRole = "f11d32e2-30b7-4f81-8a74-2165ecc00cf6";
+    var projectAdminRole = "a298b28d-9711-4a76-9a7d-910cbf144ee5";
+    // var projectEditorRole = "f11d32e2-30b7-4f81-8a74-2165ecc00cf6";
 
     var createdProjectsFile = 'createdPojects.txt';
     var failedProjectsFile = 'existingProjects.txt';
@@ -111,7 +112,7 @@ function getExcel(){
 
                                                         // ====== Assign user to project =======
                                                         jQuery.ajax({
-                                                            url: '/api/bimplus/assignuserproject/' + allTeams[currentTeam].slug +  '/' + projectId + '/' + userId + '/' + projectEditorRole,
+                                                            url: '/api/bimplus/assignuserproject/' + allTeams[currentTeam].slug +  '/' + projectId + '/' + userId + '/' + projectAdminRole,
                                                             async: false,
                                                             success: function(res){
                                                                 var data = res.data;
@@ -149,7 +150,7 @@ function getExcel(){
 
                                                                                     // ====== Assign user to project =======
                                                                                     jQuery.ajax({
-                                                                                        url: '/api/bimplus/assignuserproject/' + allTeams[currentTeam].slug +  '/' + projectId + '/' + userId + '/' + projectEditorRole,
+                                                                                        url: '/api/bimplus/assignuserproject/' + allTeams[currentTeam].slug +  '/' + projectId + '/' + userId + '/' + projectAdminRole,
                                                                                         async: false,
                                                                                         success: function(res){
                                                                                             var data = res.data;
@@ -208,7 +209,7 @@ function getExcel(){
                                         if (!isUserInProject){
                                             // ======== Add to project ==========
                                             jQuery.ajax({
-                                                url: '/api/bimplus/assignuserproject/' + allTeams[currentTeam].slug +  '/' + projectId + '/' + userId + '/' + projectEditorRole,
+                                                url: '/api/bimplus/assignuserproject/' + allTeams[currentTeam].slug +  '/' + projectId + '/' + userId + '/' + projectAdminRole,
                                                 async: false,
                                                 success: function(res){
                                                     if (res.data !='Failed'){
@@ -241,7 +242,8 @@ function getExcelGroups(){
     //var i = 1;
 
     var excelFileName = 'Groups.xlsx';
-    var projectViewerRole = "a618d075-7e4a-4bde-9d58-d2979696fa96";
+    var projectEditorRole = "f11d32e2-30b7-4f81-8a74-2165ecc00cf6";
+    // var projectViewerRole = "a618d075-7e4a-4bde-9d58-d2979696fa96";
 
     if (currentTeam != -1){
         var r = confirm("Are you sure to create all projects and members from the excel file in the team: " + allTeams[currentTeam].name);
@@ -287,8 +289,8 @@ function getExcelGroups(){
                                 success: function(res){
                                     var guestMembers = res.members;
                                     guestMembers.forEach(member => {
-                                        // IMPORTANT: only if the user is project editor it will be added to another project
-                                        if (member.role.name == 'Project_Editor'){
+                                        // IMPORTANT: only if the user is project admin it will be added to another project
+                                        if (member.role.name == 'Project_Admin'){
                                             guestProjectMembersIds.push(member.member.id);
                                         }
                                     });
@@ -335,7 +337,7 @@ function getExcelGroups(){
                                     guestProjectMembersIds.forEach(guestMemberId => {
                                         if (!hostProjectMembersIds.includes(guestMemberId)){
                                             jQuery.ajax({
-                                                url: '/api/bimplus/assignuserproject/' + allTeams[currentTeam].slug +  '/' + hostProjectId + '/' + guestMemberId + '/' + projectViewerRole,
+                                                url: '/api/bimplus/assignuserproject/' + allTeams[currentTeam].slug +  '/' + hostProjectId + '/' + guestMemberId + '/' + projectEditorRole,
                                                 async: false,
                                                 success: function(res){
                                                     var data = res.data;
